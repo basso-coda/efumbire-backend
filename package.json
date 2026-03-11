@@ -1,0 +1,26 @@
+{
+  "name": "efumbirebackend",
+  "version": "1.0.0",
+  "description": "gestion de la distribution des engrais",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Elam",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
+    "mysql2": "^3.17.3",
+    "sequelize": "^6.37.7",
+    "sharp": "^0.34.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "yup": "^1.7.1"
+  }
+}

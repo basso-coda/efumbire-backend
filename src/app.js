@@ -29,17 +29,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // app.use('/', paiementRouter)
 app.use('/api', routesProvider);
 
-/**
- * @swagger
- * /test:
- *   get:
- *     summary: Test route
- *     responses:
- *       200:
- *         description: OK
- */
-app.get('/test', (req,res)=> res.send("ok"));
-
 app.use((req, res) => {
   res.status(404).json({
     message: "Ce lien n'existe pas dans le système",

@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000/api",
+        url: process.env.API_BASE_URL || "http://localhost:3000/api",
       },
     ],
     
@@ -21,6 +21,6 @@ const options = {
 };
 const swaggerSpec = swaggerJsdoc(options);
 
-console.log(swaggerSpec.paths);
+// console.log(swaggerSpec.paths);
 
 module.exports = { swaggerUi, swaggerSpec };

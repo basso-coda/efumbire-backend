@@ -41,10 +41,10 @@ const Terrain = sequelize.define('terrain', {
     agriculteur_id: DataTypes.INTEGER,
     type_culture_id: DataTypes.INTEGER,
 
-    status: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    },
+    // status: {
+    //     type: DataTypes.BOOLEAN,
+    //     allowNull: false
+    // },
 
     date_creation: {
         type: 'TIMESTAMP',

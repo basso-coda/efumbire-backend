@@ -106,14 +106,15 @@ const createAgriculteur = async (req, res) => {
                 latitude: terrainData.latitude,
                 land_tenure_type: terrainData.land_tenure_type,
                 titre_document: files[`titre_document_${index}`],
-                validation_status: 2
+                validation_status: 0
             }, { transaction: t });
 
             // Types culture
             for (let cultureId of terrainData.type_culture_ids) {
                 await TerrainTypeCulture.create({
                     terrain_id: terrain.id_terrain,
-                    type_culture_id: cultureId
+                    type_culture_id: cultureId,
+                    status: 1
                 }, { transaction: t })
             }
 
@@ -127,7 +128,8 @@ const createAgriculteur = async (req, res) => {
 
             await ExploitationTerrain.create({
                 terrain_id: terrain.id_terrain,
-                membre_id: membreId
+                membre_id: membreId,
+                status: 1
             }, { transaction: t });
             
         }

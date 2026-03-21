@@ -48,9 +48,9 @@ typeEngraisRouter.get('/type_engrais', TypeEngraisController.getTypeEngrais);
  *           schema:
  *             type: object
  *             required:
- *               - intitule
+ *               - nom_type_engrais
  *             properties:
- *               intitule:
+ *               nom_type_engrais:
  *                 type: string
  *                 example: Ifumbire
  *     responses:
@@ -103,7 +103,7 @@ typeEngraisRouter.get('/type_engrais/:id_type_engrais', TypeEngraisController.ge
  *           schema:
  *             type: object
  *             properties:
- *               intitule:
+ *               nom_type_engrais:
  *                 type: string
  *                 example: Ifumbire
  *     responses:

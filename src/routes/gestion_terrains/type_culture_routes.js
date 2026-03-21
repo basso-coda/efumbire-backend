@@ -14,7 +14,7 @@ const TypeCultureController = require('../../controllers/gestion_terrains/TypeCu
  *         name: search
  *         schema:
  *           type: string
- *         description: Recherche par intitulé
+ *         description: Recherche par nom_type_culture
  *     responses:
  *       200:
  *         description: Liste récupérée avec succès
@@ -48,9 +48,9 @@ typeCultureRouter.get('/type_cultures', TypeCultureController.getTypeCultures);
  *           schema:
  *             type: object
  *             required:
- *               - intitule
+ *               - nom_type_culture
  *             properties:
- *               intitule:
+ *               nom_type_culture:
  *                 type: string
  *                 example: Grains
  *     responses:
@@ -103,7 +103,7 @@ typeCultureRouter.get('/type_culture/:id_type_culture', TypeCultureController.ge
  *           schema:
  *             type: object
  *             properties:
- *               intitule:
+ *               nom_type_culture:
  *                 type: string
  *                 example: Grains
  *     responses:

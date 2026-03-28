@@ -14,7 +14,175 @@ const { generateUniqueWalletNumber } = require('../../services/wallet.service')
 const { generateMatricule } = require('../../services/matricule.service')
 const Upload = require('../../utils/Upload')
 const TerrainValidation = require('../../db/models/gestion_terrains/TerrainValidation')
+const TypeAgriculteur = require('../../db/models/gestion_agriculteurs/TypeAgriculteur')
+const Colline = require('../../db/models/gestion_provinces/Colline')
+const TypeCulture = require('../../db/models/gestion_terrains/TypeCulture')
 
+
+const getAgriculteurs = async (req, res) => {
+    try {
+        const { rows = 10, first = 0, sortField, sortOrder, search } = req.query
+
+        const defaultSortDirection = "DESC"
+
+        const sortColumns = {
+            agriculteurs: {
+                as: "agriculteur",
+                fields: {
+                    id_agriculteur: "id_agriculteur",
+                    nom_complet: "nom_complet",
+                    numero_telephone: "numero_telephone",
+                    matricule: "matricule",
+                    colline_id:"colline_id",
+                    carte_identite: "carte_identite",
+                    nif: "nif",
+                    type_agriculteur_id: "type_agriculteur_id",
+                    date_creation: "date_creation"
+                }
+            }
+        }
+
+        let orderColumn, orderDirection
+        // sorting
+        let sortModel
+
+        if (sortField) {
+            for (let key in sortColumns) {
+                if (sortColumns[key].fields.hasOwnProperty(sortField)) {
+                    sortModel = {
+                        model: key,
+                        as: sortColumns[key].as
+                    }
+
+                    orderColumn = sortColumns[key].fields[sortField]
+
+                    break
+                }
+            }
+        }
+
+        if (!orderColumn || !sortModel) {
+            orderColumn = sortColumns.agriculteurs.fields.id_agriculteur
+
+            sortModel = {
+                model: 'agriculteurs',
+                as: sortColumns.agriculteurs.as
+            }
+
+        }
+
+        // ordering
+        if (sortOrder == 1) {
+            orderDirection = 'ASC'
+        } else if (sortOrder == -1) {
+            orderDirection = 'DESC'
+        } else {
+            orderDirection = defaultSortDirection
+        }
+
+        // searching
+        const globalSearchColumns = [
+            "id_agriculteur",
+            "nom_complet",
+            "numero_telephone",
+            "matricule",
+            "colline_id",
+            "carte_identite",
+            "nif",
+            "type_agriculteur_id",
+            "date_creation",
+            "$type_agriculteur.nom_type_agriculteur$",
+            "$colline.COLLINE_NAME$"
+        ]
+
+        let globalSearchWhereLike = {}
+
+        if (search && search.trim() != "") {
+            const searchWildCard = {}
+
+            globalSearchColumns.forEach(column => {
+                searchWildCard[column] = {
+                    [Op.substring]: search
+                }
+            })
+
+            globalSearchWhereLike = {
+                [Op.or]: searchWildCard
+            }
+        }
+        console.log(orderColumn)
+        // console.log(Agriculteur.associations);
+        const data = await Agriculteur.findAndCountAll({
+            limit: parseInt(rows),
+            offset: parseInt(first),
+            order: [[orderColumn, orderDirection]],
+            where: { ...globalSearchWhereLike, },
+            include: [
+                {
+                    model: TypeAgriculteur,
+                    as: 'type_agriculteur'
+                },
+                {
+                    model: Colline,
+                    as: 'colline'
+                },
+                {
+                    model: AgriculteurWallet,
+                    as: 'wallet'
+                },
+                {
+                    model: Membre,
+                    as: 'membres'
+                },
+                {
+                    model: Terrain,
+                    as: 'terrains',
+                    include: [
+                        {
+                            model: Colline,
+                            as: 'colline'
+                        },
+                        {
+                            model: TerrainTypeCulture,
+                            as: 'terrain_cultures',
+                            include: [
+                                {
+                                    model: TypeCulture,
+                                    as: 'type_culture'
+                                }
+                            ]
+                        },
+                        {
+                            model: ExploitationTerrain,
+                            as: 'exploitation',
+                            include: [
+                                {
+                                    model: Membre,
+                                    as: 'membre'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        res.json({
+            httpStatus: 200,
+            message: 'Agriculteurs recupérés avec succès',
+            data
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.json({
+            // message: 'Erreur interne du serveur',
+            message: error.message,
+            httpStatus: 500,
+            data: null
+        })
+    }
+}
 
 const createAgriculteur = async (req, res) => {
 
@@ -513,5 +681,6 @@ const updateAgriculteur = async (req, res) => {
 module.exports = {
     createAgriculteur,
     validateTerrain,
-    updateAgriculteur
+    updateAgriculteur,
+    getAgriculteurs
 }

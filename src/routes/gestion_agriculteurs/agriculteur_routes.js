@@ -1,6 +1,9 @@
 const agriculteurRouter = require('express').Router();
 const AgriculteurController = require('../../controllers/gestion_agriculteurs/Agriculteur_controller')
 
+
+agriculteurRouter.get('/agriculteurs', AgriculteurController.getAgriculteurs);
+
 /**
  * @swagger
  * /agriculteurs:

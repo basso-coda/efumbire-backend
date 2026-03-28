@@ -39,7 +39,7 @@ const Terrain = sequelize.define('terrain', {
 
     colline_id: DataTypes.SMALLINT,
     agriculteur_id: DataTypes.INTEGER,
-    type_culture_id: DataTypes.INTEGER,
+    // type_culture_id: DataTypes.INTEGER,
 
     // status: {
     //     type: DataTypes.BOOLEAN,
@@ -61,7 +61,7 @@ const Terrain = sequelize.define('terrain', {
     timestamps: false,
 })
 
-Terrain.belongsTo(Agriculteur, { foreignKey: 'agriculteur_id', as: 'agriculteur' })
-Terrain.belongsTo(Colline, { foreignKey: 'colline_id', as: 'colline' })
+// Terrain.belongsTo(Agriculteur, { foreignKey: 'agriculteur_id', as: 'agriculteur' })
+// Terrain.belongsTo(Colline, { foreignKey: 'colline_id', as: 'colline' })
 
 module.exports = Terrain;

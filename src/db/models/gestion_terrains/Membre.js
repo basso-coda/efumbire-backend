@@ -15,10 +15,10 @@ const Membre = sequelize.define('membre', {
 
     agriculteur_id: DataTypes.INTEGER,
 
-    status: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    },
+    // status: {
+    //     type: DataTypes.BOOLEAN,
+    //     allowNull: false
+    // },
 
     date_creation: {
         type: 'TIMESTAMP',
@@ -30,6 +30,6 @@ const Membre = sequelize.define('membre', {
     timestamps: false,
 })
 
-Membre.belongsTo(Agriculteur, { foreignKey: 'agriculteur_id', as: 'agriculteur' })
+// Membre.belongsTo(Agriculteur, { foreignKey: 'agriculteur_id', as: 'agriculteur' })
 
 module.exports = Membre;

@@ -41,6 +41,6 @@ const WalletTransaction = sequelize.define('wallet_transaction', {
     timestamps: false,
 })
 
-WalletTransaction.belongsTo(AgriculteurWallet, { foreignKey: 'agriculteur_wallet_id', as: 'agriculteur_wallet' })
+// WalletTransaction.belongsTo(AgriculteurWallet, { foreignKey: 'agriculteur_wallet_id', as: 'agriculteur_wallet' })
 
 module.exports = WalletTransaction;

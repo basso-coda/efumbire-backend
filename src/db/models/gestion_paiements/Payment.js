@@ -32,7 +32,7 @@ const Payment = sequelize.define('payment', {
     timestamps: false,
 })
 
-Payment.belongsTo(WalletTransaction, { foreignKey: 'wallet_transaction_id', as: 'wallet_transaction' })
-Payment.belongsTo(CommandeInvoice, { foreignKey: 'commande_invoice_id', as: 'commande_invoice' })
+// Payment.belongsTo(WalletTransaction, { foreignKey: 'wallet_transaction_id', as: 'wallet_transaction' })
+// Payment.belongsTo(CommandeInvoice, { foreignKey: 'commande_invoice_id', as: 'commande_invoice' })
 
 module.exports = Payment;

@@ -3,7 +3,7 @@ const Terrain = require('./Terrain');
 const TypeCulture = require('./TypeCulture');
 const sequelize = require('../index').sequelize;
 
-const TerrainTypeCulture = sequelize.define('terrain_type_culture', {
+const TerrainTypeCulture = sequelize.define('terrain_cultures', {
     id_terrain_type_culture: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -36,7 +36,7 @@ const TerrainTypeCulture = sequelize.define('terrain_type_culture', {
     tableName: 'terrain_type_culture'
 })
 
-TerrainTypeCulture.belongsTo(Terrain, { as: 'terrain', foreignKey: 'terrain_id' })
-TerrainTypeCulture.belongsTo(TypeCulture, { as: 'type_culture', foreignKey: 'type_culture_id' })
+// TerrainTypeCulture.belongsTo(Terrain, { as: 'terrain', foreignKey: 'terrain_id' })
+// TerrainTypeCulture.belongsTo(TypeCulture, { as: 'type_culture', foreignKey: 'type_culture_id' })
 
 module.exports = TerrainTypeCulture;

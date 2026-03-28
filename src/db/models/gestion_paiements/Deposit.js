@@ -25,6 +25,6 @@ const Deposit = sequelize.define('deposit', {
     timestamps: false,
 })
 
-Deposit.belongsTo(WalletTransaction, { foreignKey: 'wallet_transaction_id', as: 'wallet_transaction' })
+// Deposit.belongsTo(WalletTransaction, { foreignKey: 'wallet_transaction_id', as: 'wallet_transaction' })
 
 module.exports = Deposit;

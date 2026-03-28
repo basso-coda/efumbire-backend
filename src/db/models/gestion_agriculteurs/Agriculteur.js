@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const TypeAgriculteur = require('./TypeAgriculteur');
-const Colline = require('../gestion_provinces/Colline')
+const Colline = require('../gestion_provinces/Colline');
 const sequelize = require('../index').sequelize;
 
 const Agriculteur = sequelize.define('agriculteur', {
@@ -49,7 +49,7 @@ const Agriculteur = sequelize.define('agriculteur', {
     timestamps: false,
 })
 
-Agriculteur.belongsTo(TypeAgriculteur, { foreignKey: 'type_agriculteur_id', as: 'type_agriculteur' })
-Agriculteur.belongsTo(Colline, { foreignKey: 'colline_id', as: 'collines' })
+// Agriculteur.belongsTo(TypeAgriculteur, { foreignKey: 'type_agriculteur_id', as: 'type_agriculteur' })
+// Agriculteur.belongsTo(Colline, { foreignKey: 'colline_id', as: 'collines' })
 
 module.exports = Agriculteur;

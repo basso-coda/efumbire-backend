@@ -11,7 +11,11 @@ const routesProvider = require('./routes/routesProvider');
 // Pour la documentation avec swagger/openapi
 // const swaggerUi = require("swagger-ui-express");
 const { swaggerUi, swaggerSpec } = require("./config/swaggers");
+const initAssociations = require('./db/models/associations');
 
+
+
+initAssociations();
 
 dotenv.config()
 

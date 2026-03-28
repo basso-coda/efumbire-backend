@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const Agriculteur = require('../gestion_agriculteurs/Agriculteur');
 const sequelize = require('../index').sequelize;
 
-const AgriculteurWallet = sequelize.define('agriculteur_wallet', {
+const AgriculteurWallet = sequelize.define('wallet', {
     id_agriculteur_wallet: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -37,6 +37,6 @@ const AgriculteurWallet = sequelize.define('agriculteur_wallet', {
     timestamps: false,
 })
 
-AgriculteurWallet.belongsTo(Agriculteur, { foreignKey: 'agriculteur_id', as: 'agriculteur' })
+// AgriculteurWallet.belongsTo(Agriculteur, { foreignKey: 'agriculteur_id', as: 'agriculteur' })
 
 module.exports = AgriculteurWallet;

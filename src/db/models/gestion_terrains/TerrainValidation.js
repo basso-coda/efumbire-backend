@@ -40,7 +40,7 @@ const TerrainValidation = sequelize.define('terrain_validation', {
     tableName: 'terrain_validations'
 })
 
-TerrainValidation.belongsTo(Terrain, { as: 'terrain', foreignKey: 'terrain_id' })
-TerrainValidation.belongsTo(User, { as: 'user', foreignKey: 'user_id' })
+// TerrainValidation.belongsTo(Terrain, { as: 'terrain', foreignKey: 'terrain_id' })
+// TerrainValidation.belongsTo(User, { as: 'user', foreignKey: 'user_id' })
 
 module.exports = TerrainValidation;

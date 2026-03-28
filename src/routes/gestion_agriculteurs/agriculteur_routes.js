@@ -1,7 +1,124 @@
 const agriculteurRouter = require('express').Router();
 const AgriculteurController = require('../../controllers/gestion_agriculteurs/Agriculteur_controller')
 
-
+/**
+ * @swagger
+ * /agriculteurs:
+ *   get:
+ *     summary: Récupérer la liste des agriculteurs
+ *     description: Retourne une liste paginée des agriculteurs avec leurs relations (type, colline, wallet, membres, terrains, cultures, exploitation).
+ *     tags:
+ *       - Agriculteurs
+ *     parameters:
+ *       - in: query
+ *         name: rows
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *         description: Nombre d'éléments par page
+ *       - in: query
+ *         name: first
+ *         schema:
+ *           type: integer
+ *           example: 0
+ *         description: Offset (début de la pagination)
+ *       - in: query
+ *         name: sortField
+ *         schema:
+ *           type: string
+ *           example: nom_complet
+ *         description: Champ de tri
+ *       - in: query
+ *         name: sortOrder
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: Ordre de tri (1 = ASC, -1 = DESC)
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *           example: Jean
+ *         description: Recherche globale
+ *     responses:
+ *       200:
+ *         description: Liste des agriculteurs récupérée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 total:
+ *                   type: integer
+ *                   example: 100
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id_agriculteur:
+ *                         type: integer
+ *                         example: 1
+ *                       nom_complet:
+ *                         type: string
+ *                         example: Jean Ndayizeye
+ *                       numero_telephone:
+ *                         type: string
+ *                         example: 69000000
+ *                       matricule:
+ *                         type: string
+ *                         example: AGR12345
+ *                       type_agriculteur:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                           libelle:
+ *                             type: string
+ *                       colline:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                           nom:
+ *                             type: string
+ *                       wallet:
+ *                         type: object
+ *                         properties:
+ *                           solde:
+ *                             type: number
+ *                             example: 50000
+ *                       membres:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             nom:
+ *                               type: string
+ *                       terrains:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             superficie:
+ *                               type: number
+ *                             colline:
+ *                               type: object
+ *                             terrain_cultures:
+ *                               type: array
+ *                               items:
+ *                                 type: object
+ *                                 properties:
+ *                                   type_culture:
+ *                                     type: object
+ *                             exploitation:
+ *                               type: object
+ *                               properties:
+ *                                 membre:
+ *                                   type: object
+ *       500:
+ *         description: Erreur serveur
+ */
 agriculteurRouter.get('/agriculteurs', AgriculteurController.getAgriculteurs);
 
 /**
@@ -96,7 +213,131 @@ agriculteurRouter.get('/agriculteurs', AgriculteurController.getAgriculteurs);
  */
 agriculteurRouter.post('/agriculteurs', AgriculteurController.createAgriculteur);
 
+/**
+ * @swagger
+ * /terrain-validations/{terrain_id}:
+ *   post:
+ *     summary: Valider ou rejeter un terrain
+ *     description: Permet d’enregistrer une validation sur un terrain et de recalculer son statut global.
+ *     tags:
+ *       - Terrains
+ *     parameters:
+ *       - in: path
+ *         name: terrain_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID du terrain à valider
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - status
+ *             properties:
+ *               status:
+ *                 type: integer
+ *                 example: 1
+ *                 description: |
+ *                   Statut de validation:
+ *                   - 1 = APPROVED
+ *                   - 0 = REJECTED
+ *               commentaire:
+ *                 type: string
+ *                 example: Terrain conforme
+ *     responses:
+ *       200:
+ *         description: Validation enregistrée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Validation enregistrée
+ *                 terrain_status:
+ *                   type: integer
+ *                   example: 2
+ *                   description: |
+ *                     Statut global du terrain:
+ *                     - 0 = PENDING
+ *                     - 1 = PARTIALLY_VALIDATED
+ *                     - 2 = VALIDATED
+ *                     - 3 = REJECTED
+ *       404:
+ *         description: Terrain non trouvé ou déjà traité
+ *       400:
+ *         description: Erreur lors de la validation
+ */
 agriculteurRouter.post('/terrain-validations/:terrain_id', AgriculteurController.validateTerrain);
+
+/**
+ * @swagger
+ * /agriculteur-update/{id_agriculteur}:
+ *   put:
+ *     summary: Modifier un agriculteur
+ *     description: Met à jour un agriculteur, ses membres, ses terrains, cultures et exploitation.
+ *     tags:
+ *       - Agriculteurs
+ *     parameters:
+ *       - in: path
+ *         name: id_agriculteur
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de l'agriculteur
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nom_complet:
+ *                 type: string
+ *                 example: Jean Ndayizeye
+ *               numero_telephone:
+ *                 type: string
+ *                 example: 69000000
+ *               email:
+ *                 type: string
+ *                 example: jean@gmail.com
+ *               carte_identite:
+ *                 type: string
+ *                 example: 123456789
+ *               type_agriculteur_id:
+ *                 type: integer
+ *                 example: 1
+ *               colline_id:
+ *                 type: integer
+ *                 example: 10
+ *               membres:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *               terrains:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *     responses:
+ *       200:
+ *         description: Agriculteur modifié avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Agriculteur modifié avec succès
+ *       404:
+ *         description: Agriculteur non trouvé
+ *       400:
+ *         description: Erreur lors de la mise à jour
+ */
 agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurController.updateAgriculteur)
 
 module.exports = agriculteurRouter;

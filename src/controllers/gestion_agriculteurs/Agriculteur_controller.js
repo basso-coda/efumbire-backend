@@ -450,7 +450,13 @@ const updateAgriculteur = async (req, res) => {
         });
 
         // const existingIds = existingMembres.map(m => m.id);
-        const payloadMembres = JSON.parse(data.membres || "[]");
+        const payloadMembres = Array.isArray(data.membres) ? data.membres : [];
+
+        if (!Array.isArray(data.membres)) {
+            return res.status(400).json({
+                message: "membres doit être un tableau"
+            });
+        }
 
         const payloadIds = payloadMembres
             .filter(m => m.id)
@@ -492,7 +498,13 @@ const updateAgriculteur = async (req, res) => {
         });
 
         // const existingTerrainIds = existingTerrains.map(t => t.id_terrain);
-        const payloadTerrains = JSON.parse(data.terrains || "[]");
+        const payloadTerrains = Array.isArray(data.terrains) ? data.terrains : [];
+
+        if (!Array.isArray(data.terrains)) {
+            return res.status(400).json({
+                message: "terrains doit être un tableau"
+            });
+        }
 
         const payloadTerrainIds = payloadTerrains
             .filter(t => t.id)

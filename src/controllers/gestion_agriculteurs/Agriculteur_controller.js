@@ -81,46 +81,67 @@ const getAgriculteurs = async (req, res) => {
         }
 
         // searching
-        const globalSearchColumns = [
-            "id_agriculteur",
-            "nom_complet",
-            "numero_telephone",
-            "matricule",
-            "colline_id",
-            "carte_identite",
-            "nif",
-            "type_agriculteur_id",
-            "date_creation",
-            "$type_agriculteur.nom_type_agriculteur$",
-            "$colline.COLLINE_NAME$"
-        ]
+        // const globalSearchColumns = [
+        //     "id_agriculteur",
+        //     "nom_complet",
+        //     "numero_telephone",
+        //     "matricule",
+        //     "colline_id",
+        //     "carte_identite",
+        //     "nif",
+        //     "type_agriculteur_id",
+        //     "date_creation",
+        //     "$type_agriculteur.nom_type_agriculteur$",
+        //     "$colline.COLLINE_NAME$"
+        // ]
 
-        let globalSearchWhereLike = {}
+        // let globalSearchWhereLike = {}
 
-        if (search && search.trim() != "") {
-            const searchWildCard = {}
-
-            globalSearchColumns.forEach(column => {
-                searchWildCard[column] = {
-                    [Op.substring]: search
-                }
-            })
-
-            globalSearchWhereLike = {
-                [Op.or]: searchWildCard
+        const globalSearchWhereLike = search && search.trim() !== ""
+        ? {
+            [Op.or]: [
+                { nom_complet: { [Op.substring]: search } },
+                { numero_telephone: { [Op.substring]: search } },
+                { matricule: { [Op.substring]: search } },
+                { carte_identite: { [Op.substring]: search } }
+            ]
             }
-        }
-        console.log(orderColumn)
+        : {};
+
+        // if (search && search.trim() != "") {
+        //     const searchWildCard = {}
+
+        //     globalSearchColumns.forEach(column => {
+        //         searchWildCard[column] = {
+        //             [Op.substring]: search
+        //         }
+        //     })
+
+        //     globalSearchWhereLike = {
+        //         [Op.or]: searchWildCard
+        //     }
+        // }
         // console.log(Agriculteur.associations);
         const data = await Agriculteur.findAndCountAll({
             limit: parseInt(rows),
             offset: parseInt(first),
             order: [[orderColumn, orderDirection]],
-            where: { ...globalSearchWhereLike, },
+            // where: { ...globalSearchWhereLike, },
+            where: globalSearchWhereLike,
+            distinct: true,
+            subQuery: false,
             include: [
                 {
                     model: TypeAgriculteur,
-                    as: 'type_agriculteur'
+                    as: 'type_agriculteur',
+                    required: false,
+                    where: search
+                        ? {
+                            nom_type_agriculteur: {
+                                [Op.substring]: search
+                            }
+                        }
+                        : undefined
                 },
                 {
                     model: Colline,

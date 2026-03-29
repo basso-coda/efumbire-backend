@@ -6,7 +6,7 @@ const sequelize = require('../index').sequelize;
  * @author elam 
  * @date 09/10/2024
  */
-const Colline = sequelize.define('collines', {
+const Colline = sequelize.define('colline', {
     COLLINE_ID: {
         type: DataTypes.SMALLINT,
         primaryKey: true,

@@ -31,7 +31,7 @@ async function generateMatricule(colline_id, transaction) {
     const count = await Agriculteur.count({
         include: {
             model: Colline,
-            as: 'collines',
+            as: 'colline',
             include: {
                 model: Zone,
                 as: 'zones',
@@ -46,7 +46,7 @@ async function generateMatricule(colline_id, transaction) {
             }
         },
         where: {
-            '$collines.zones.communes.provinces.PROVINCE_ID$': provinceId
+            '$colline.zones.communes.provinces.PROVINCE_ID$': provinceId
         },
         transaction
     });

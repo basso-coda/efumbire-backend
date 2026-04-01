@@ -297,7 +297,7 @@ const createAgriculteur = async (req, res) => {
                 titre_document: files[`titre_document_${index}`],
                 validation_status: 0
             }, { transaction: t });
-
+            
             // Types culture
             for (let cultureId of terrainData.type_culture_ids) {
                 await TerrainTypeCulture.create({
@@ -350,7 +350,7 @@ const validateTerrain = async (req, res) => {
     try {
         
         const { terrain_id } = req.params;
-        const { status, commentaire } = req.body;
+        const { status, commentaire, role_validation } = req.body;
         
         const terrain = await Terrain.findByPk(terrain_id, { transaction: t });
 

@@ -36,7 +36,7 @@ const getTypeEngrais = async (req, res) => {
             message: 'Les type engrais recupérés',
             data
         });
-        }
+    }
     catch (error) {
         console.error(error);
         res.json({
@@ -64,22 +64,24 @@ const createTypeEngrais = async (req, res) => {
         }
 
         const registerSchema = yup.lazy(() => yup.object({
-            nom_type_engrais: yup.string().required()
+            nom_type_engrais: yup.string().required(),
+            prix: yup.number().required()
         }));
 
         try {
-            await registerSchema.validate(req.body, { abortEarly: false, stripUnknown: true })
+            await registerSchema.validate(req.body, { abortEarly: false, stripUnknown: true });
         } catch (ex) {
             return res.status(422).json({
                 httpStatus: 422,
                 message: 'Erreur de validation des données',
                 data: null,
-                errors: ex.inner.reduce((acc, curr) => {
+                errors: ex.inner?.reduce((acc, curr) => {
                     if (curr.path) {
-                        return { ...acc, [curr.path]: curr.errors[0] }
+                        acc[curr.path] = curr.errors[0];
                     }
-                }, {}),
-            })
+                    return acc;
+                }, {}) || {}
+            });
         }
 
         try {
@@ -152,6 +154,7 @@ const updateTypeEngrais = async (req, res) => {
 
         const updateSchema = yup.lazy(() => yup.object({
             nom_type_engrais: yup.string().optional(),
+            prix: yup.number().optional()
         }));
 
         const validatedData = await updateSchema.validate(req.body, {abortEarly: false, stripUnknown: true})
@@ -191,7 +194,7 @@ const getOneTypeEngrais = async (req, res) => {
             })
         }
 
-        res,json({
+        res.json({
             httpStatus: 200,
             message: 'Type engrais trouvé avec succès',
             data: type_engrais

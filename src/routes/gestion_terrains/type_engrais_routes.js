@@ -49,10 +49,14 @@ typeEngraisRouter.get('/type_engrais', TypeEngraisController.getTypeEngrais);
  *             type: object
  *             required:
  *               - nom_type_engrais
+ *               - prix
  *             properties:
  *               nom_type_engrais:
  *                 type: string
  *                 example: Ifumbire
+ *               prix:
+ *                 type: decimal
+ *                 example: 100000
  *     responses:
  *       200:
  *         description: Type engrais créé avec succès
@@ -106,6 +110,9 @@ typeEngraisRouter.get('/type_engrais/:id_type_engrais', TypeEngraisController.ge
  *               nom_type_engrais:
  *                 type: string
  *                 example: Ifumbire
+ *               prix:
+ *                 type: decimal
+ *                 example: 100000
  *     responses:
  *       200:
  *         description: Type d'engrais modifié

@@ -191,7 +191,7 @@ const getTypeCulture = async (req, res) => {
             })
         }
 
-        res,json({
+        res.json({
             httpStatus: 200,
             message: 'Type culture trouvé avec succès',
             data: type_culture

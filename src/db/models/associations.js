@@ -7,6 +7,10 @@ const Membre = require('./gestion_terrains/Membre');
 const Terrain = require('./gestion_terrains/Terrain');
 const TerrainTypeCulture = require('./gestion_terrains/TerrainTypeCulture');
 const TypeCulture = require('./gestion_terrains/TypeCulture');
+const EngraisRecommandation = require('./gestion_terrains/EngraisRecommandation');
+const TypeEngrais = require('./gestion_terrains/TypeEngrais');
+const Saison = require('./gestion_commandes/Saison');
+const TerrainSaisonCulture = require('./gestion_terrains/TerrainSaisonCulture');
 
 const initAssociations = () => {
 
@@ -85,6 +89,38 @@ const initAssociations = () => {
         foreignKey: 'membre_id',
         as: 'exploitations'
     })
+
+    // EngraisRecommendation relations
+    EngraisRecommandation.belongsTo(TypeEngrais, {
+        foreignKey: 'type_engrais_id',
+        as: 'type_engrais'
+    });
+
+    EngraisRecommandation.belongsTo(TypeCulture, {
+        foreignKey: 'type_culture_id',
+        as: 'type_culture'
+    });
+
+    EngraisRecommandation.belongsTo(Saison, {
+        foreignKey: 'saison_id',
+        as: 'saison'
+    });
+
+    // TerrainSaisonCulture relations
+    TerrainSaisonCulture.belongsTo(Terrain, {
+        foreignKey: 'terrain_id',
+        as: 'terrain_saison'
+    });
+
+    TerrainSaisonCulture.belongsTo(Saison, {
+        foreignKey: 'saison_id',
+        as: 'saison'
+    });
+
+    TerrainSaisonCulture.belongsTo(TypeCulture, {
+        foreignKey: 'type_culture_id',
+        as: 'type_culture'
+    });
 
 };
 

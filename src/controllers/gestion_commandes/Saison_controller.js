@@ -191,7 +191,7 @@ const getSaison = async (req, res) => {
             })
         }
 
-        res,json({
+        res.json({
             httpStatus: 200,
             message: 'Saison trouvé avec succès',
             data: saison

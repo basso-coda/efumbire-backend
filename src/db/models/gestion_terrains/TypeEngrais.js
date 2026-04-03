@@ -16,6 +16,10 @@ const TypeEngrais = sequelize.define('type_engrais', {
         unique: true,
         allowNull: false,
     },
+    prix: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+    },
     date_creation: {
         type: 'TIMESTAMP',
         defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),

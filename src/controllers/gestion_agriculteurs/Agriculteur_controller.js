@@ -80,23 +80,6 @@ const getAgriculteurs = async (req, res) => {
             orderDirection = defaultSortDirection
         }
 
-        // searching
-        // const globalSearchColumns = [
-        //     "id_agriculteur",
-        //     "nom_complet",
-        //     "numero_telephone",
-        //     "matricule",
-        //     "colline_id",
-        //     "carte_identite",
-        //     "nif",
-        //     "type_agriculteur_id",
-        //     "date_creation",
-        //     "$type_agriculteur.nom_type_agriculteur$",
-        //     "$colline.COLLINE_NAME$"
-        // ]
-
-        // let globalSearchWhereLike = {}
-
         const globalSearchWhereLike = search && search.trim() !== ""
         ? {
             [Op.or]: [
@@ -108,19 +91,6 @@ const getAgriculteurs = async (req, res) => {
             }
         : {};
 
-        // if (search && search.trim() != "") {
-        //     const searchWildCard = {}
-
-        //     globalSearchColumns.forEach(column => {
-        //         searchWildCard[column] = {
-        //             [Op.substring]: search
-        //         }
-        //     })
-
-        //     globalSearchWhereLike = {
-        //         [Op.or]: searchWildCard
-        //     }
-        // }
         // console.log(Agriculteur.associations);
         const data = await Agriculteur.findAndCountAll({
             limit: parseInt(rows),
@@ -711,9 +681,89 @@ const updateAgriculteur = async (req, res) => {
     }
 }
 
+const getOneAgriculteur = async (req, res) => {
+    try {
+        const { id_agriculteur } = req.params
+
+        const agriculteur = await Agriculteur.findByPk(id_agriculteur, {
+            include: [
+                {
+                    model: TypeAgriculteur,
+                    as: 'type_agriculteur',
+                },
+                {
+                    model: Colline,
+                    as: 'colline'
+                },
+                {
+                    model: AgriculteurWallet,
+                    as: 'wallet'
+                },
+                {
+                    model: Membre,
+                    as: 'membres'
+                },
+                {
+                    model: Terrain,
+                    as: 'terrains',
+                    include: [
+                        {
+                            model: Colline,
+                            as: 'colline'
+                        },
+                        {
+                            model: TerrainTypeCulture,
+                            as: 'terrain_cultures',
+                            include: [
+                                {
+                                    model: TypeCulture,
+                                    as: 'type_culture'
+                                }
+                            ]
+                        },
+                        {
+                            model: ExploitationTerrain,
+                            as: 'exploitation',
+                            include: [
+                                {
+                                    model: Membre,
+                                    as: 'membre'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        if (!agriculteur) {
+            return res.status(404).json({
+                httpStatus: 404,
+                message: 'Agriculteur non trouvé',
+                data: agriculteur
+            });
+        }
+
+        res.json({
+            httpStatus: 200,
+            message: 'Agriculteur trouvé avec succès',
+            data: agriculteur
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: 'Erreur interne du serveur',
+            httpStatus: 500,
+            data: null
+        })
+    }
+}
+
 module.exports = {
     createAgriculteur,
     validateTerrain,
     updateAgriculteur,
-    getAgriculteurs
+    getAgriculteurs,
+    getOneAgriculteur
 }

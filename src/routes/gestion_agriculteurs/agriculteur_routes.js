@@ -462,36 +462,36 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                                       type: integer
  *                                     nom:
  *                                       type: string
- *        404:
- *          description: Agriculteur non trouvé
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  httpStatus:
- *                    type: integer
- *                    example: 404
- *                  message:
- *                    type: string
- *                    example: Agriculteur non trouvé
- *                  data:
- *                    nullable: true
- *        500:
- *          description: Erreur interne du serveur
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  httpStatus:
- *                    type: integer
- *                    example: 500
- *                  message:
- *                    type: string
- *                    example: Erreur interne du serveur
- *                  data:
- *                    nullable: true
+*        404:
+*          description: Agriculteur non trouvé
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  httpStatus:
+*                    type: integer
+*                    example: 404
+*                  message:
+*                    type: string
+*                    example: Agriculteur non trouvé
+*                  data:
+*                    nullable: true
+*        500:
+*          description: Erreur interne du serveur
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  httpStatus:
+*                    type: integer
+*                    example: 500
+*                  message:
+*                    type: string
+*                    example: Erreur interne du serveur
+*                  data:
+*                    nullable: true
  */
 agriculteurRouter.get('/agriculteur/:id_agriculteur', AgriculteurController.getOneAgriculteur);
 

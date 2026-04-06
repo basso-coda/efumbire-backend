@@ -386,7 +386,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                     telephone:
  *                       type: string
  *                       example: 61234567
-
  *                     type_agriculteur:
  *                       type: object
  *                       nullable: true
@@ -395,7 +394,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                           type: integer
  *                         nom_type_agriculteur:
  *                           type: string
-
  *                     colline:
  *                       type: object
  *                       properties:
@@ -403,7 +401,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                           type: integer
  *                         nom_colline:
  *                           type: string
-
  *                     wallet:
  *                       type: object
  *                       properties:
@@ -412,7 +409,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                         solde:
  *                           type: number
  *                           example: 15000
-
  *                     membres:
  *                       type: array
  *                       items:
@@ -422,7 +418,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                             type: integer
  *                           nom:
  *                             type: string
-
  *                     terrains:
  *                       type: array
  *                       items:
@@ -432,7 +427,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                             type: integer
  *                           superficie:
  *                             type: number
-
  *                           colline:
  *                             type: object
  *                             properties:
@@ -440,7 +434,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                                 type: integer
  *                               nom_colline:
  *                                 type: string
-
  *                           terrain_cultures:
  *                             type: array
  *                             items:
@@ -455,7 +448,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                                       type: integer
  *                                     nom_type_culture:
  *                                       type: string
-
  *                           exploitation:
  *                             type: array
  *                             items:
@@ -470,7 +462,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                                       type: integer
  *                                     nom:
  *                                       type: string
-
  *        404:
  *          description: Agriculteur non trouvé
  *          content:
@@ -486,7 +477,6 @@ agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurControll
  *                    example: Agriculteur non trouvé
  *                  data:
  *                    nullable: true
-
  *        500:
  *          description: Erreur interne du serveur
  *          content:

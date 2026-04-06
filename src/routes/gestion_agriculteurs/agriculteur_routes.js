@@ -123,6 +123,70 @@ agriculteurRouter.get('/agriculteurs', AgriculteurController.getAgriculteurs);
 
 /**
  * @swagger
+ * /agriculteur/{id_agriculteur}:
+ *   get:
+ *     summary: Récupérer un agriculteur par ID
+ *     description: Récupère les informations détaillées d’un agriculteur avec ses relations (type, colline, wallet, membres, terrains, cultures, exploitations).
+ *     tags:
+ *       - Agriculteurs
+ *     parameters:
+ *       - in: path
+ *         name: id_agriculteur
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID unique de l'agriculteur
+ *     responses:
+ *       200:
+ *         description: Agriculteur trouvé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 httpStatus:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Agriculteur trouvé avec succès
+ *                 data:
+ *                   type: object
+ *       404:
+ *         description: Agriculteur non trouvé
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 httpStatus:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: Agriculteur non trouvé
+ *                 data:
+ *                   nullable: true
+ *       500:
+ *         description: Erreur interne du serveur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 httpStatus:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: Erreur interne du serveur
+ *                 data:
+ *                   nullable: true
+ */
+agriculteurRouter.get('/agriculteur/:id_agriculteur', AgriculteurController.getOneAgriculteur);
+
+/**
+ * @swagger
  * /agriculteurs:
  *   post:
  *     summary: Créer un agriculteur avec terrains, membres et documents
@@ -340,159 +404,6 @@ agriculteurRouter.post('/terrain-validations/:terrain_id', AgriculteurController
  */
 agriculteurRouter.put('/agriculteur-update/:id_agriculteur', AgriculteurController.updateAgriculteur);
 
-/**
- * @swagger
- * /agriculteur/{id_agriculteur}:
- *   get:
- *     summary: Récupérer un agriculteur par ID
- *     description: >
- *       Permet de récupérer les informations détaillées d’un agriculteur,  
- *       y compris ses relations (type, colline, wallet, membres, terrains, cultures, exploitations).
- *     tags:
- *       - Agriculteurs
- *     parameters:
- *       - in: path
- *         name: id_agriculteur
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID uniqur de l'agriculteur
- *     responses:
- *       200:
- *         description: Agriculteur trouvé avec succès
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 httpStatus:
- *                   type: integer
- *                   example: 200
- *                 message:
- *                   type: string
- *                   example: Agriculteur trouvé avec succès
- *                 data:
- *                   type: object
- *                   properties:
- *                     id_agriculteur:
- *                       type: integer
- *                       example: 1
- *                     nom:
- *                       type: string
- *                       example: Nkurunziza
- *                     prenom:
- *                       type: string
- *                       example: Jean
- *                     telephone:
- *                       type: string
- *                       example: 61234567
- *                     type_agriculteur:
- *                       type: object
- *                       nullable: true
- *                       properties:
- *                         id_type_agriculteur:
- *                           type: integer
- *                         nom_type_agriculteur:
- *                           type: string
- *                     colline:
- *                       type: object
- *                       properties:
- *                         id_colline:
- *                           type: integer
- *                         nom_colline:
- *                           type: string
- *                     wallet:
- *                       type: object
- *                       properties:
- *                         id_wallet:
- *                           type: integer
- *                         solde:
- *                           type: number
- *                           example: 15000
- *                     membres:
- *                       type: array
- *                       items:
- *                         type: object
- *                         properties:
- *                           id_membre:
- *                             type: integer
- *                           nom:
- *                             type: string
- *                     terrains:
- *                       type: array
- *                       items:
- *                         type: object
- *                         properties:
- *                           id_terrain:
- *                             type: integer
- *                           superficie:
- *                             type: number
- *                           colline:
- *                             type: object
- *                             properties:
- *                               id_colline:
- *                                 type: integer
- *                               nom_colline:
- *                                 type: string
- *                           terrain_cultures:
- *                             type: array
- *                             items:
- *                               type: object
- *                               properties:
- *                                 id_terrain_type_culture:
- *                                   type: integer
- *                                 type_culture:
- *                                   type: object
- *                                   properties:
- *                                     id_type_culture:
- *                                       type: integer
- *                                     nom_type_culture:
- *                                       type: string
- *                           exploitation:
- *                             type: array
- *                             items:
- *                               type: object
- *                               properties:
- *                                 id_exploitation:
- *                                   type: integer
- *                                 membre:
- *                                   type: object
- *                                   properties:
- *                                     id_membre:
- *                                       type: integer
- *                                     nom:
- *                                       type: string
-*        404:
-*          description: Agriculteur non trouvé
-*          content:
-*            application/json:
-*              schema:
-*                type: object
-*                properties:
-*                  httpStatus:
-*                    type: integer
-*                    example: 404
-*                  message:
-*                    type: string
-*                    example: Agriculteur non trouvé
-*                  data:
-*                    nullable: true
-*        500:
-*          description: Erreur interne du serveur
-*          content:
-*            application/json:
-*              schema:
-*                type: object
-*                properties:
-*                  httpStatus:
-*                    type: integer
-*                    example: 500
-*                  message:
-*                    type: string
-*                    example: Erreur interne du serveur
-*                  data:
-*                    nullable: true
- */
-agriculteurRouter.get('/agriculteur/:id_agriculteur', AgriculteurController.getOneAgriculteur);
+
 
 module.exports = agriculteurRouter;

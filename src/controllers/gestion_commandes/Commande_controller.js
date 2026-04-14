@@ -7,6 +7,120 @@ const TerrainTypeCulture = require('../../db/models/gestion_terrains/TerrainType
 const EngraisRecommandation = require('../../db/models/gestion_terrains/EngraisRecommandation');
 const TerrainSaisonCulture = require('../../db/models/gestion_terrains/TerrainSaisonCulture');
 const { sequelize } = require('../../db/models');
+const Agriculteur = require('../../db/models/gestion_agriculteurs/Agriculteur');
+const CommandeInvoice = require('../../db/models/gestion_commandes/CommandeInvoice');
+const { Op } = require('sequelize');
+
+const getCommandes = async (req, res) => {
+    try {
+
+        const { rows = 10, first = 0, sortField, sortOrder, search } = req.query;
+
+        const defaultSortDirection = "DESC";
+
+        // ===== SORT CONFIG =====
+        const sortColumns = {
+            commandes: {
+                as: "commande",
+                fields: {
+                    id_commande: "id_commande",
+                    date_commande: "date_commande",
+                    agriculteur_id: "agriculteur_id",
+                    saison_id: "saison_id"
+                }
+            }
+        };
+
+        let orderColumn, orderDirection;
+        let sortModel;
+
+        if (sortField) {
+            for (let key in sortColumns) {
+                if (sortColumns[key].fields.hasOwnProperty(sortField)) {
+                    sortModel = {
+                        model: key,
+                        as: sortColumns[key].as
+                    };
+
+                    orderColumn = sortColumns[key].fields[sortField];
+                    break;
+                }
+            }
+        }
+
+        if (!orderColumn) {
+            orderColumn = "id_commande";
+        }
+
+        // ===== ORDER =====
+        if (sortOrder == 1) {
+            orderDirection = "ASC";
+        } else if (sortOrder == -1) {
+            orderDirection = "DESC";
+        } else {
+            orderDirection = defaultSortDirection;
+        }
+
+        // ===== SEARCH =====
+        const globalSearchWhereLike = search && search.trim() !== ""
+            ? {
+                [Op.or]: [
+                    { "$agriculteur.nom_complet$": { [Op.substring]: search } },
+                    { "$commande_invoice.invoice_number$": { [Op.substring]: search } }
+                ]
+            }
+            : {};
+
+        // ===== QUERY =====
+        const data = await Commande.findAndCountAll({
+            limit: parseInt(rows),
+            offset: parseInt(first),
+            order: [[orderColumn, orderDirection]],
+            where: globalSearchWhereLike,
+            distinct: true,
+            subQuery: false,
+
+            include: [
+                {
+                    model: Agriculteur,
+                    as: "agriculteur",
+                    // attributes: ["id_agriculteur", "nom_complet", "numero_telephone"]
+                },
+                {
+                    model: CommandeItems,
+                    as: "items",
+                    include: [
+                        {
+                            model: TypeEngrais,
+                            as: "type_engrais",
+                            // attributes: ["id_type_engrais", "nom_type_engrais", "prix"]
+                        }
+                    ]
+                },
+                {
+                    model: CommandeInvoice,
+                    as: "commande_invoice",
+                    required: false
+                }
+            ]
+        });
+
+        return res.json({
+            httpStatus: 200,
+            message: "Commandes récupérées avec succès",
+            data
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            httpStatus: 500,
+            message: error.message,
+            data: null
+        });
+    }
+};
 
 const createCommande = async (req, res) => {
     const t = await sequelize.transaction();
@@ -170,6 +284,62 @@ const createCommande = async (req, res) => {
     }
 };
 
+const getOneCommande = async (req, res) => {
+    try {
+        const { id_commande } = req.params
+
+        const commande = await Commande.findByPk(id_commande, {
+            include: [
+                {
+                    model: Agriculteur,
+                    as: "agriculteur",
+                    // attributes: ["id_agriculteur", "nom_complet", "numero_telephone"]
+                },
+                {
+                    model: CommandeItems,
+                    as: "items",
+                    include: [
+                        {
+                            model: TypeEngrais,
+                            as: "type_engrais",
+                            // attributes: ["id_type_engrais", "nom_type_engrais", "prix"]
+                        }
+                    ]
+                },
+                {
+                    model: CommandeInvoice,
+                    as: "commande_invoice",
+                    required: false
+                }
+            ]
+        });
+
+        if (!commande) {
+            return res.status(404).json({
+                httpStatus: 404,
+                message: 'Commande non trouvé',
+                data: commande
+            });
+        }
+
+        res.json({
+            httpStatus: 200,
+            message: 'Commande trouvé avec succès',
+            data: commande
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: 'Erreur interne du serveur',
+            httpStatus: 500,
+            data: null
+        })
+    }
+}
+
 module.exports = {
-    createCommande
+    getCommandes,
+    createCommande,
+    getOneCommande
 }

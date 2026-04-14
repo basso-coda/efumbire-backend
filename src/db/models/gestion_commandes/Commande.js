@@ -24,7 +24,7 @@ const Commande = sequelize.define('commande', {
     timestamps: false,
 })
 
-Commande.belongsTo(Agriculteur, { foreignKey: 'agriculteur_id', as: 'agriculteur' })
-Commande.belongsTo(Saison, { foreignKey: 'saison_id', as: 'saison' })
+// Commande.belongsTo(Agriculteur, { foreignKey: 'agriculteur_id', as: 'agriculteur' })
+// Commande.belongsTo(Saison, { foreignKey: 'saison_id', as: 'saison' })
 
 module.exports = Commande;

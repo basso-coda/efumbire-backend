@@ -28,7 +28,7 @@ const CommandeItems = sequelize.define('commande_items', {
     timestamps: false,
 })
 
-CommandeItems.belongsTo(Commande, { foreignKey: 'commande_id', as: 'commande' })
-CommandeItems.belongsTo(TypeEngrais, { foreignKey: 'type_engrais_id', as: 'type_engrais' })
+// CommandeItems.belongsTo(Commande, { foreignKey: 'commande_id', as: 'commande' })
+// CommandeItems.belongsTo(TypeEngrais, { foreignKey: 'type_engrais_id', as: 'type_engrais' })
 
 module.exports = CommandeItems;

@@ -11,6 +11,9 @@ const EngraisRecommandation = require('./gestion_terrains/EngraisRecommandation'
 const TypeEngrais = require('./gestion_terrains/TypeEngrais');
 const Saison = require('./gestion_commandes/Saison');
 const TerrainSaisonCulture = require('./gestion_terrains/TerrainSaisonCulture');
+const CommandeItems = require('./gestion_commandes/CommandeItems');
+const Commande = require('./gestion_commandes/Commande');
+const CommandeInvoice = require('./gestion_commandes/CommandeInvoice')
 
 const initAssociations = () => {
 
@@ -120,6 +123,27 @@ const initAssociations = () => {
     TerrainSaisonCulture.belongsTo(TypeCulture, {
         foreignKey: 'type_culture_id',
         as: 'type_culture'
+    });
+
+    // Commandes relations
+    Commande.belongsTo(Agriculteur, {
+        foreignKey: 'agriculteur_id',
+        as: 'agriculteur'
+    });
+
+    Commande.hasMany(CommandeItems, {
+        foreignKey: 'commande_id',
+        as: 'items'
+    });
+
+    Commande.hasOne(CommandeInvoice, {
+        foreignKey: 'commande_id',
+        as: 'commande_invoice'
+    });
+
+    CommandeItems.belongsTo(TypeEngrais, {
+        foreignKey: 'type_engrais_id',
+        as: 'type_engrais'
     });
 
 };

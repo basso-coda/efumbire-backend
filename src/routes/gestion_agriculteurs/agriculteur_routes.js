@@ -311,6 +311,9 @@ agriculteurRouter.post('/agriculteurs', AgriculteurController.createAgriculteur)
  *               commentaire:
  *                 type: string
  *                 example: Terrain conforme
+ *               user_id: 
+ *                 type: integer
+ *                 example: 1
  *     responses:
  *       200:
  *         description: Validation enregistrée avec succès

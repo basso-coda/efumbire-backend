@@ -19,7 +19,32 @@ const Payment = sequelize.define('payment', {
     wallet_transaction_id: {
         type: DataTypes.INTEGER,
         unique: true,
-        allowNull: false,
+        allowNull: true,
+    },
+
+    payment_method: {
+        type: DataTypes.ENUM('WALLET','BANK','MOBILE_MONEY'),
+        allowNull: false
+    },
+
+    amount_paid: {
+        type: DataTypes.DECIMAL(18,2),
+        allowNull: false
+    },
+
+    payment_reference: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    proof_document: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    payment_status: {
+        type: DataTypes.ENUM('PENDING','UNDER_REVIEW','PAID','REJECTED'),
+        allowNull:true
     },
 
     payment_date: {

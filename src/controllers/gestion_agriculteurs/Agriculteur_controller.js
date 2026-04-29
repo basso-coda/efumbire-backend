@@ -320,7 +320,7 @@ const validateTerrain = async (req, res) => {
     try {
         
         const { terrain_id } = req.params;
-        const { status, commentaire, role_validation } = req.body;
+        const { status, commentaire, role_validation, user_id } = req.body;
         
         const terrain = await Terrain.findByPk(terrain_id, { transaction: t });
 

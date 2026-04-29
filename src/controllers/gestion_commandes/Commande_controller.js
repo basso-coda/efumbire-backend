@@ -10,6 +10,8 @@ const { sequelize } = require('../../db/models');
 const Agriculteur = require('../../db/models/gestion_agriculteurs/Agriculteur');
 const CommandeInvoice = require('../../db/models/gestion_commandes/CommandeInvoice');
 const { Op } = require('sequelize');
+const WalletTransaction = require('../../db/models/gestion_paiements/WalletTransaction');
+const AgriculteurWallet = require('../../db/models/gestion_paiements/AgriculteurWallet');
 
 const getCommandes = async (req, res) => {
     try {
@@ -263,7 +265,50 @@ const createCommande = async (req, res) => {
             totalAmount += item.quantite * engrais.prix;
         }
 
-        // 7. Commit
+        // 7. Calcul subvention
+        const tauxSubvention = 0.6; // 60%
+
+        const subventionAmount = totalAmount * tauxSubvention;
+        const amountToPay = totalAmount - subventionAmount;
+
+        // 8. Bloquer subvention dans wallet
+        const wallet = await AgriculteurWallet.findOne({
+            where: { agriculteur_id },
+            transaction: t
+        });
+
+        if (!wallet) {
+            throw new Error("Wallet introuvable");
+        }
+
+        await wallet.update({
+            blocked_balance:
+                Number(wallet.blocked_balance) + Number(subventionAmount)
+        }, { transaction: t });
+
+        // 9. Enregistrer la transaction
+        await WalletTransaction.create({
+            transaction_type: "SUBVENTION",
+            transaction_amount: subventionAmount,
+            transaction_code: "SUB-" + Date.now(),
+            wallet_id: wallet.id_agriculteur_wallet,
+            transaction_date: new Date()
+        }, { transaction: t });
+
+        // 10. Générer facture
+        await CommandeInvoice.create({
+            commande_id: commande.id_commande,
+            invoice_number: "FAC-" + Date.now(),
+            code_reference: "REF-" + Math.floor(Math.random() * 999999),
+            total_amount: totalAmount,
+            subvention_amount: subventionAmount,
+            amount_to_pay: amountToPay,
+            statut_payment: "PENDING",
+            date_emission: new Date(),
+            voucher_used: false
+        }, { transaction: t });
+
+        // 10. Commit
         await t.commit();
 
         return res.status(201).json({

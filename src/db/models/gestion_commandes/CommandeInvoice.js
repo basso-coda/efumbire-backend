@@ -21,7 +21,7 @@ const CommandeInvoice = sequelize.define('commande_invoice', {
 
     voucher_code: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 
     total_amount: {

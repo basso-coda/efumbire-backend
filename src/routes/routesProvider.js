@@ -4,6 +4,7 @@ const agriculteurRouter = require('./gestion_agriculteurs/agriculteur_routes');
 const typeAgriculteurRouter = require('./gestion_agriculteurs/type_agriculteur_routes');
 const commandeRouter = require('./gestion_commandes/commande_routes');
 const saisonRouter = require('./gestion_commandes/saison_routes');
+const paymentRouter = require('./gestion_paiements/payment_routes');
 const collinesRouter = require('./gestion_provinces/collines_routes');
 const communesRouter = require('./gestion_provinces/communes_routes');
 const provincesRouter = require('./gestion_provinces/provinces_routes');
@@ -23,5 +24,6 @@ mainRouter.use(provincesRouter);
 mainRouter.use(zonesRouter);
 mainRouter.use(engraisRecommandationRouter);
 mainRouter.use(commandeRouter);
+mainRouter.use(paymentRouter);
 
 module.exports = mainRouter;

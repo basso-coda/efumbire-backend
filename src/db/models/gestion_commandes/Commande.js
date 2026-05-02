@@ -12,6 +12,7 @@ const Commande = sequelize.define('commande', {
 
     agriculteur_id: DataTypes.INTEGER,
     saison_id: DataTypes.INTEGER,
+    colline_id: DataTypes.SMALLINT,
 
     date_commande: {
         type: 'TIMESTAMP',

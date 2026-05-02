@@ -13,14 +13,20 @@ const Stock = sequelize.define('stock', {
     type_engrais_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        unique: true
     },
 
     quantite_disponible: {
         type: DataTypes.DECIMAL,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0
     },
 
-    colline_id: DataTypes.SMALLINT,
+    colline_id: {
+        type: DataTypes.SMALLINT,
+        allowNull: false,
+        unique: true
+    },
 
     updated_date: {
         type: 'TIMESTAMP',

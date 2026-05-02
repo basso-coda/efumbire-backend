@@ -25,7 +25,7 @@ const StockMouvement = sequelize.define('stock_mouvement', {
     },
 
     reference_type: {
-        type: DataTypes.ENUM('APPROVISIONNEMENT', 'INVOICE'),
+        type: DataTypes.ENUM('APPROVISIONNEMENT', 'COMMANDE', 'AJUSTEMENT'),
         allowNull: false
     },
 

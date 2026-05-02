@@ -128,7 +128,7 @@ const createCommande = async (req, res) => {
     const t = await sequelize.transaction();
 
     try {
-        const { agriculteur_id, saison_id, cultures, items } = req.body;
+        const { agriculteur_id, saison_id, colline_id, cultures, items } = req.body;
 
         // 1. Validation basique
         if (!agriculteur_id || !saison_id || !items?.length || !cultures?.length) {
@@ -206,6 +206,7 @@ const createCommande = async (req, res) => {
         const commande = await Commande.create({
             agriculteur_id,
             saison_id,
+            colline_id,
             date_commande: new Date()
         }, { transaction: t });
 

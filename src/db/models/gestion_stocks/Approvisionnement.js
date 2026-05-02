@@ -10,12 +10,13 @@ const Approvisionnement = sequelize.define('approvisionnement', {
     },
 
     reference_number: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
+        unique: true
     },
 
     fournisseur_id: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
 

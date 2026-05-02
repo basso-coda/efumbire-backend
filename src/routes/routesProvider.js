@@ -9,6 +9,9 @@ const collinesRouter = require('./gestion_provinces/collines_routes');
 const communesRouter = require('./gestion_provinces/communes_routes');
 const provincesRouter = require('./gestion_provinces/provinces_routes');
 const zonesRouter = require('./gestion_provinces/zones_routes');
+const approvisionnementRouter = require('./gestion_stocks/approvisionnement_routes');
+const stockMouvementRouter = require('./gestion_stocks/stock_mouvement_routes');
+const stockRouter = require('./gestion_stocks/stock_routes');
 const engraisRecommandationRouter = require('./gestion_terrains/engrais_recommandation_routes');
 const typeCultureRouter = require('./gestion_terrains/type_culture_routes');
 const typeEngraisRouter = require('./gestion_terrains/type_engrais_routes');
@@ -25,5 +28,8 @@ mainRouter.use(zonesRouter);
 mainRouter.use(engraisRecommandationRouter);
 mainRouter.use(commandeRouter);
 mainRouter.use(paymentRouter);
+mainRouter.use(approvisionnementRouter);
+mainRouter.use(stockRouter);
+mainRouter.use(stockMouvementRouter);
 
 module.exports = mainRouter;

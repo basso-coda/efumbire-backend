@@ -21,7 +21,7 @@ const getEngraisRecommandations = async (req, res) => {
             engrais_recommandations: {
                 as: "engrais_recommandation",
                 fields: {
-                    id_agriculteur: "id_engrais_recommandations",
+                    id_engrais_recommandations: "id_engrais_recommandations",
                     type_engrais_id: "type_engrais_id",
                     type_culture_id: "type_culture_id",
                     dose_par_hectare: "dose_par_hectare",

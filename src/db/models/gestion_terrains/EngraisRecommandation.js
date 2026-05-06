@@ -9,7 +9,6 @@ const EngraisRecommandation = sequelize.define('engrais_recommandation', {
     },
 
     type_engrais_id: DataTypes.INTEGER,
-    type_culture_id: DataTypes.INTEGER,
 
     dose_par_hectare: {
         type: DataTypes.DECIMAL(10, 2),

@@ -221,7 +221,6 @@ const createCommande = async (req, res) => {
                 throw new Error(`Type engrais ${item.type_engrais_id} introuvable`);
             }
 
-            // Charger recommandations UNE FOIS PAR ITEM
             const recommandations = await EngraisRecommandation.findAll({
                 where: {
                     type_engrais_id: item.type_engrais_id,
@@ -234,28 +233,24 @@ const createCommande = async (req, res) => {
                 throw new Error("Aucune recommandation définie pour cet engrais");
             }
 
-            let quantiteMax = 0;
+            // 🔥 superficie totale
+            const superficieTotale = terrains.reduce(
+                (sum, terrain) => sum + Number(terrain.superficie),
+                0
+            );
 
-            // 🔥 Calcul intelligent basé sur culture réelle
-            for (let tsc of culturesSaison) {
+            // 🔥 règle unique
+            const regle = recommandations[0];
 
-                const regle = recommandations.find(r =>
-                    r.type_culture_id === tsc.type_culture_id
-                );
+            const quantiteMax = superficieTotale * Number(regle.dose_par_hectare);
 
-                if (regle) {
-                    quantiteMax += Number(tsc.terrain_saison.superficie) * Number(regle.dose_par_hectare);
-                }
-            }
-
-            // Validation métier
+            // Validation
             if (item.quantite > quantiteMax) {
                 throw new Error(
                     `Quantité demandée (${item.quantite}) dépasse la recommandation (${quantiteMax})`
                 );
             }
 
-            // Enregistrer item
             await CommandeItems.create({
                 commande_id: commande.id_commande,
                 type_engrais_id: item.type_engrais_id,

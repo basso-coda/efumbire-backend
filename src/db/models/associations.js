@@ -99,11 +99,6 @@ const initAssociations = () => {
         as: 'type_engrais'
     });
 
-    EngraisRecommandation.belongsTo(TypeCulture, {
-        foreignKey: 'type_culture_id',
-        as: 'type_culture'
-    });
-
     EngraisRecommandation.belongsTo(Saison, {
         foreignKey: 'saison_id',
         as: 'saison'

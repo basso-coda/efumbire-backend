@@ -23,7 +23,6 @@ const getEngraisRecommandations = async (req, res) => {
                 fields: {
                     id_engrais_recommandations: "id_engrais_recommandations",
                     type_engrais_id: "type_engrais_id",
-                    type_culture_id: "type_culture_id",
                     dose_par_hectare: "dose_par_hectare",
                     min_dose: "min_dose",
                     max_dose: "max_dose",
@@ -154,7 +153,6 @@ const createEngraisRecommandation = async (req, res) => {
 
         const registerSchema = yup.lazy(() => yup.object({
             type_engrais_id: yup.number().integer().required(),
-            type_culture_id: yup.number().integer().required(),
             dose_par_hectare: yup.number().required(),
             min_dose: yup.number().required(),
             max_dose: yup.number().required(),
@@ -236,7 +234,6 @@ const updateEngraisRecommandation = async (req, res) => {
 
         const updateSchema = yup.lazy(() => yup.object({
             type_engrais_id: yup.number().integer().optional(),
-            type_culture_id: yup.number().integer().optional(),
             dose_par_hectare: yup.number().optional(),
             min_dose: yup.number().optional(),
             max_dose: yup.number().optional(),

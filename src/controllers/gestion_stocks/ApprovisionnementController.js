@@ -12,7 +12,7 @@ const createApprovisionnement = async (req, res) => {
             fournisseur_id,
             date_reception,
             items,
-            user_id
+            // user_id  // A ajouter quand l'authentification sera ajouté
         } = req.body;
 
         // const user_id = req.user?.id_user || 1; // adapte selon ton auth
@@ -20,7 +20,7 @@ const createApprovisionnement = async (req, res) => {
         // =========================
         // 1. Validation
         // =========================
-        if (!fournisseur_id || !date_reception || !items?.length || !user_id) {
+        if (!fournisseur_id || !date_reception || !items?.length) {
             return res.status(400).json({
                 message: "Données invalides"
             });

@@ -11,7 +11,7 @@ const Province = require('../../db/models/gestion_provinces/Province');
  */
 const getCommunes = async (req, res) => {
     try {
-        const { rows = 10, first = 0, sortField, sortOrder, search, province} = req.query
+        const { sortField, sortOrder, search, province } = req.query
     
         const defaultSortField = "COMMUNE_ID"
         const defaultSortDirection = "DESC"
@@ -87,8 +87,6 @@ const getCommunes = async (req, res) => {
         }
 
         const communes = await Commune.findAndCountAll({
-          limit: parseInt(rows),
-          offset: parseInt(first),
           order: [
             [sortModel, orderColumn, orderDirection]
           ],

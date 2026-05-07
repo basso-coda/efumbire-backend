@@ -11,7 +11,7 @@ const Commune = require('../../db/models/gestion_provinces/Commune');
  */
 const getZones = async (req, res) => {
     try {
-        const { rows = 10, first = 0, sortField, sortOrder, search, commune} = req.query
+        const { sortField, sortOrder, search, commune } = req.query
     
         const defaultSortField = "ZONE_ID"
         const defaultSortDirection = "DESC"
@@ -87,8 +87,6 @@ const getZones = async (req, res) => {
         }
 
         const zones = await Zone.findAndCountAll({
-          limit: parseInt(rows),
-          offset: parseInt(first),
           order: [
             [sortModel, orderColumn, orderDirection]
           ],

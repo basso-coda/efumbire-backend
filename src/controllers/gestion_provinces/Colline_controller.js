@@ -11,7 +11,7 @@ const Zone = require('../../db/models/gestion_provinces/Zone');
  */
 const getCollines = async (req, res) => {
     try {
-        const { rows = 10, first = 0, sortField, sortOrder, search, zone} = req.query
+        const { sortField, sortOrder, search, zone } = req.query
 
         const defaultSortField = "COLLINE_ID"
         const defaultSortDirection = "DESC"
@@ -87,8 +87,6 @@ const getCollines = async (req, res) => {
         }
 
         const collines = await Colline.findAndCountAll({
-          limit: parseInt(rows),
-          offset: parseInt(first),
           order: [
             [sortModel, orderColumn, orderDirection]
           ],

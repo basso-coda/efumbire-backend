@@ -61,15 +61,11 @@ engraisRecommandationRouter.get('/engrais_recommandations', EngraisRecommandatio
  *             type: object
  *             required:
  *               - type_engrais_id
- *               - type_culture_id
  *               - dose_par_hectare
  *             properties:
  *               type_engrais_id:
  *                 type: integer
  *                 example: 1
- *               type_culture_id:
- *                 type: integer
- *                 example: 2
  *               dose_par_hectare:
  *                 type: number
  *                 example: 50
@@ -140,9 +136,6 @@ engraisRecommandationRouter.get('/engrais_recommandations/:id_engrais_recommanda
  *               type_engrais_id:
  *                 type: integer
  *                 example: 1
- *               type_culture_id:
- *                 type: integer
- *                 example: 2
  *               dose_par_hectare:
  *                 type: number
  *                 example: 60

@@ -15,11 +15,11 @@ const TerrainValidation = sequelize.define('terrain_validation', {
     },
     user_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     role_validation: {
         type: DataTypes.ENUM('AGRONOME', 'CHEF_COLLINE', 'CHEF_DEVELOPPEMENT'),
-        allowNull: false
+        allowNull: true
     },
     commentaire: {
         type: DataTypes.STRING,

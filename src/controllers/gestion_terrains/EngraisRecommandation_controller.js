@@ -100,18 +100,6 @@ const getEngraisRecommandations = async (req, res) => {
                         : undefined
                 },
                 {
-                    model: TypeCulture,
-                    as: 'type_culture',
-                    required: false,
-                    where: search
-                        ? {
-                            nom_type_culture: {
-                                [Op.substring]: search
-                            }
-                        }
-                        : undefined
-                },
-                {
                     model: Saison,
                     as: 'saison',
                     required: false,

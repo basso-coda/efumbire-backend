@@ -10,6 +10,7 @@ const communesRouter = require('./gestion_provinces/communes_routes');
 const provincesRouter = require('./gestion_provinces/provinces_routes');
 const zonesRouter = require('./gestion_provinces/zones_routes');
 const approvisionnementRouter = require('./gestion_stocks/approvisionnement_routes');
+const fournisseurRouter = require('./gestion_stocks/fournisseur_routes');
 const stockMouvementRouter = require('./gestion_stocks/stock_mouvement_routes');
 const stockRouter = require('./gestion_stocks/stock_routes');
 const engraisRecommandationRouter = require('./gestion_terrains/engrais_recommandation_routes');
@@ -31,5 +32,6 @@ mainRouter.use(paymentRouter);
 mainRouter.use(approvisionnementRouter);
 mainRouter.use(stockRouter);
 mainRouter.use(stockMouvementRouter);
+mainRouter.use(fournisseurRouter);
 
 module.exports = mainRouter;

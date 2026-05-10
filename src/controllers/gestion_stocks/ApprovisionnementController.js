@@ -38,7 +38,7 @@ const createApprovisionnement = async (req, res) => {
             reference_number: referenceNumber,
             fournisseur_id,
             date_reception,
-            user_id
+            // user_id
         }, { transaction: t });
 
         // =========================
